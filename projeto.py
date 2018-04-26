@@ -15,19 +15,21 @@ from math import *
 #%% Data initialization
 x_values = [0.1, 1.0, 10.0]
 table_up = []
+table_down = []
+table_down_normal = []
+list_j0 = []
 x_axis = range(0, 25)
 
-
-#%% Define function to compute j's
-def calculation():
-    #table_up = [] #cria tabela vazia #TODO mover para inicialização de dados, global
-    
-    #table[row][column]     
-    for x in x_values:
-        
+#%% Define function to compute j's up
+def compute_j_up():
+    for x in x_values:       
         row_up = [] #cria lista vazia
-        #UP
-        j_up_ant = sin(x)/x     #j0
+    
+        #Calculates j0
+        j0 = sin(x)/x
+        list_j0.append(j0)
+        
+        j_up_ant = j0     #j0
         row_up.append(j_up_ant)     #adiciona item a lista
         j_up_atual = sin(x)/(x**2) - cos(x)/x   #j1  
         row_up.append(j_up_atual)   #adiciona item a lista  
@@ -38,23 +40,32 @@ def calculation():
             j_up_atual = j_up_prox
         
         table_up.append(row_up)     #adiciona lista a tabela
-         
-        #DOWN    
-        j_down_prox = j_up_atual
-        j_down_atual = j_up_ant
-        #guardar na tabela
+     
+#%% Define function to compute j's down
+def compute_j_down():      
+    for x in x_values:  
+        row_down = []
+        
+        j_down_prox = 2000 #TODO corrigir valor
+        #TODOguardar na linha (de tras pra frente?)
+        j_down_atual = 2000 #TODO corrigir valor
+        #guardar na linha (de tras pra frente?)
         for l in range(23, 0, -1):
             j_down_ant = (2*l + 1)/x*j_down_atual - j_down_prox
             #guardar na tabela
             j_down_prox = j_down_atual 
             j_down_atual = j_down_ant
-        j_down_zero = j_down_atual #TODO global ou então return, valor a ser usado na normalização
         
-            #print j_down_atual
-
-#%% Define function to normalize down recursion
-
-
+        table_down.append(row_down) #append linha na tabela
+        
+#%% Define function to normalize j's
+def normalize():
+    for i in range(0,3):
+        row_normal = []
+        for j in range(0,25):
+           jl_normal = table_down[i][j] * list_j0[i] / table_down[i][0] # jl_nor = jl_comp * j0_analy/j0_comp
+           row_normal.append(jl_normal)
+        table_down_normal.append(row_normal)
 
 
 #%% Define function to plot graphs
@@ -66,7 +77,7 @@ def plot_():
 
      
 #%% Teste       
-calculation()      
+compute_j_up()      
 
 plot_()
 #%% Main 
