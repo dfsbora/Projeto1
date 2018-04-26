@@ -47,15 +47,17 @@ def compute_j_down():
         row_down = []
         
         j_down_prox = 2000 #TODO corrigir valor
-        #TODOguardar na linha (de tras pra frente?)
+        row_down.append(j_down_prox)
         j_down_atual = 2000 #TODO corrigir valor
-        #guardar na linha (de tras pra frente?)
+        row_down.append(j_down_atual)
         for l in range(23, 0, -1):
             j_down_ant = (2*l + 1)/x*j_down_atual - j_down_prox
-            #guardar na tabela
+            row_down.append(j_down_ant)
             j_down_prox = j_down_atual 
             j_down_atual = j_down_ant
         
+        row_down = list(reversed(row_down)) #Muda a ordem dos elementos, pra deixar de 1 a 25 e nao de 25 a 1 como estava
+
         table_down.append(row_down) #append linha na tabela
         
 #%% Define function to normalize j's
