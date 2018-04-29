@@ -76,7 +76,10 @@ def calc_error():
     for i in range(0,3):
         row_error = []
         for j in range(0,25):
-            j_error = abs(table_up[i][j]- table_down[i][j]) / ( abs(table_up[i][j]) - abs(table_down[i][j]) ) 
+            if ( ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) == 0 ):
+                j_error = 0.005 #TODO corrigir só pra evitar float division by zero
+            else:
+                j_error = abs(table_up[i][j]- table_down_normal[i][j]) / ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) 
             row_error.append(j_error)
         table_error.append(row_error)
 
@@ -97,8 +100,7 @@ compute_j_down()
 normalize()
 calc_error()
 plot_(table_up,'jl(x) (up)')
-plot_(table_down,'jl(x) (down)')
+plot_(table_down_normal,'jl(x) (down)')
 plot_(table_error,'Erro relativo')
 #%% Main 
    
-plot(x_axis,table_error[0])
