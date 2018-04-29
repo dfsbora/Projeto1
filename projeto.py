@@ -82,7 +82,7 @@ def calc_error():
 
 #%% Define function to plot graphs
 
-def plot_(table,y_label,title_):
+def plot_(table,y_label):
     for row in table:
         plot(x_axis,row)
     xlabel('Valores de l')
