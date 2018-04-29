@@ -17,6 +17,7 @@ x_values = [0.1, 1.0, 10.0]
 table_up = []
 table_down = []
 table_down_normal = []
+table_error = []
 list_j0 = []
 x_axis = range(0, 25)
 
@@ -69,6 +70,15 @@ def normalize():
            row_normal.append(jl_normal)
         table_down_normal.append(row_normal)
 
+#%% Define function to calculate error
+def calc_error():
+    for i in range(0,3):
+        row_error = []
+        for j in range(0,25):
+           j_error = abs(table_up[i][j]- table_down[i][j]) / ( abs(table_up[i][j]) - abs(table_down[i][j]) ) #table_down[i][j]
+           row_error.append(j_error)
+        table_error.append(row_error)
+#abs( jup - jdown )/ ( abs(jup) + abs(jdown))
 
 #%% Define function to plot graphs
 
@@ -80,6 +90,10 @@ def plot_():
      
 #%% Teste       
 
+compute_j_up()
+compute_j_down()
+normalize()
+calc_error()
 #%% Main 
         
     
