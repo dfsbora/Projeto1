@@ -24,32 +24,31 @@ x_axis = range(0, 25)
 #%% Define function to compute j's up
 def compute_j_up():
     for x in x_values:       
-        row_up = [] #cria lista vazia
+        row_up = []                 #cria lista vazia
     
-        #Calculates j0
-        j0 = sin(x)/x
-        list_j0.append(j0)
+        j0 = sin(x)/x               #j0
+        list_j0.append(j0)          #adiciona à lista de j0's
+
+        j_up_ant = j0               
+        row_up.append(j_up_ant)                         #adiciona à lista de js
+        j_up_atual = sin(x)/(x**2) - cos(x)/x           #j1  
+        row_up.append(j_up_atual)                       #adiciona à lista de js
+        for l in range(2, 25):                          #loop de 2 a 24
+            j_up_prox = (2*l + 1)/x*j_up_atual - j_up_ant       #cálculo de js
+            row_up.append(j_up_prox)                            #adiciona à lista de js
+            j_up_ant = j_up_atual                       #atualiza o valor de jl-1
+            j_up_atual = j_up_prox                      #atualiza o valor de jl
         
-        j_up_ant = j0     #j0
-        row_up.append(j_up_ant)     #adiciona item a lista
-        j_up_atual = sin(x)/(x**2) - cos(x)/x   #j1  
-        row_up.append(j_up_atual)   #adiciona item a lista  
-        for l in range(2, 25):  #Loop de 2 a 24 (0 e 1 já definidos, totalizando 25)
-            j_up_prox = (2*l + 1)/x*j_up_atual - j_up_ant
-            row_up.append(j_up_prox)    #adiciona item a lista
-            j_up_ant = j_up_atual 
-            j_up_atual = j_up_prox
-        
-        table_up.append(row_up)     #adiciona lista a tabela
+        table_up.append(row_up)     #adiciona a lista de js à tabela
      
 #%% Define function to compute j's down
 def compute_j_down():      
     for x in x_values:  
         row_down = []
         
-        j_down_prox = 2000 #TODO corrigir valor
+        j_down_prox = 2000          #TODO corrigir valor
         row_down.append(j_down_prox)
-        j_down_atual = 2000 #TODO corrigir valor
+        j_down_atual = 2000         #TODO corrigir valor
         row_down.append(j_down_atual)
         for l in range(23, 0, -1):
             j_down_ant = (2*l + 1)/x*j_down_atual - j_down_prox
@@ -57,28 +56,30 @@ def compute_j_down():
             j_down_prox = j_down_atual 
             j_down_atual = j_down_ant
         
-        row_down = list(reversed(row_down)) #Muda a ordem dos elementos, pra deixar de 1 a 25 e nao de 25 a 1 como estava
+        row_down = list(reversed(row_down))         #Inverte ordem dos elementos
 
-        table_down.append(row_down) #append linha na tabela
+        table_down.append(row_down)                 #adiciona a lista de js à tabela
         
 #%% Define function to normalize j's
+## jl_nor = jl_comp * j0_analy/j0_comp
 def normalize():
     for i in range(0,3):
         row_normal = []
         for j in range(0,25):
-           jl_normal = table_down[i][j] * list_j0[i] / table_down[i][0] # jl_nor = jl_comp * j0_analy/j0_comp
+           jl_normal = table_down[i][j] * list_j0[i] / table_down[i][0] 
            row_normal.append(jl_normal)
         table_down_normal.append(row_normal)
 
 #%% Define function to calculate error
+#abs( jup - jdown )/ ( abs(jup) + abs(jdown))
 def calc_error():
     for i in range(0,3):
         row_error = []
         for j in range(0,25):
-           j_error = abs(table_up[i][j]- table_down[i][j]) / ( abs(table_up[i][j]) - abs(table_down[i][j]) ) #table_down[i][j]
+           j_error = abs(table_up[i][j]- table_down[i][j]) / ( abs(table_up[i][j]) - abs(table_down[i][j]) ) 
            row_error.append(j_error)
         table_error.append(row_error)
-#abs( jup - jdown )/ ( abs(jup) + abs(jdown))
+
 
 #%% Define function to plot graphs
 
@@ -100,4 +101,3 @@ plot_(table_down,'jl(x) (down)')
 plot_(table_error,'Erro relativo')
 #%% Main 
    
-    
