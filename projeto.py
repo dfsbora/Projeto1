@@ -79,12 +79,7 @@ def plot_():
 
      
 #%% Teste       
-compute_j_up()      
 
-plot_()
 #%% Main 
-
-calculation()
-    
         
     
