@@ -82,10 +82,10 @@ def calc_error():
 
 #%% Define function to plot graphs
 
-def plot_(table,y_label):
+def plot_(table,y_label,title_):
     for row in table:
         plot(x_axis,row)
-    xlabel('l')
+    xlabel('Valores de l')
     ylabel(y_label)
     show()
      
@@ -95,7 +95,9 @@ compute_j_up()
 compute_j_down()
 normalize()
 calc_error()
-plot_(table_error,'Error')
+plot_(table_up,'jl(x) (up)')
+plot_(table_down,'jl(x) (down)')
+plot_(table_error,'Erro relativo')
 #%% Main 
    
     
