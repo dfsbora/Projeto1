@@ -82,11 +82,12 @@ def calc_error():
 
 #%% Define function to plot graphs
 
-def plot_():
-    for row in table_up:
+def plot_(table,y_label):
+    for row in table:
         plot(x_axis,row)
-        hold('on')
-
+    xlabel('l')
+    ylabel(y_label)
+    show()
      
 #%% Teste       
 
@@ -94,6 +95,7 @@ compute_j_up()
 compute_j_down()
 normalize()
 calc_error()
+plot_(table_error,'Error')
 #%% Main 
-        
+   
     
