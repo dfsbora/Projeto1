@@ -13,7 +13,11 @@ from numpy import *
 from math import *
 
 #%% Data initialization
-x_values = [0.1, 1.0, 10.0]
+#Escolher x_values abaixo
+#Valor do roteiro
+#x_values = [0.1, 1.0, 10.0]
+#Valor para plots
+x_values = linspace(0.1,10.0,51)
 table_up = []
 table_down = []
 table_down_normal = []
@@ -24,7 +28,7 @@ x_axis = range(0, 25)
 #%% Define function to compute j's up
 def compute_j_up():
     for x in x_values:       
-        row_up = []                 #cria lista vazia
+        row_up = []                 
     
         j0 = sin(x)/x               #j0
         list_j0.append(j0)          #adiciona à lista de j0's
@@ -62,7 +66,7 @@ def compute_j_down():
 #%% Define function to normalize j's
 ## jl_nor = jl_comp * j0_analy/j0_comp
 def normalize():
-    for i in range(0,3):
+    for i in range(0,size(x_values)):
         row_normal = []
         for j in range(0,25):
             jl_normal = table_down[i][j] * list_j0[i] / table_down[i][0] 
@@ -72,10 +76,10 @@ def normalize():
 #%% Define function to calculate error
 #abs( jup - jdown )/ ( abs(jup) + abs(jdown))
 def calc_error():
-    for i in range(0,3):
+    for i in range(0,size(x_values)):
         row_error = []
         for j in range(0,25):
-            print '%.20f' %( abs(table_up[i][j]) - abs(table_down_normal[i][j]) )
+            #print '%.20f' %( abs(table_up[i][j]) - abs(table_down_normal[i][j]) )
             if ( ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) == 0 ):
                 j_error = 0.005 #TODO corrigir só pra evitar float division by zero
             else:
@@ -84,22 +88,21 @@ def calc_error():
         table_error.append(row_error)
 
 
-#%% Define function to plot graphs
+#%% Define function to plot f(l)
 
-def plot_(table,y_label):
+def plot_l(table,y_label):
     for row in table:
         plot(x_axis,row)
     xlabel('Valores de l')
     ylabel(y_label)
     show()
      
-#%% Define test plot function 
-    #x_values deve ter 10 valores
+#%% Define function to plot f(x)
     
-def plot_test(table,y_label):
+def plot_x(table,y_label):
     for i in range(0,25):
         teste = []
-        for j in range(0,10):
+        for j in range(0,size(x_values)):
             teste.append(table[j][i])
         plot(x_values,teste)
     xlabel('Valores de x')
@@ -112,9 +115,10 @@ compute_j_up()
 compute_j_down()
 normalize()
 calc_error()
-plot_(table_up,'jl(x) (up)')
-plot_(table_down_normal,'jl(x) (down)')
-plot_(table_error,'Erro relativo')
-#plot_test(table_down_normal,'jl(x) down')
+plot_l(table_up,'jl(x) (up)')
+plot_l(table_down_normal,'jl(x) (down)')
+plot_l(table_error,'Erro relativo')
+plot_x(table_down_normal,'jl(x) down')
+plot_x(table_up,'jl(x) up')
 #%% Main 
    
