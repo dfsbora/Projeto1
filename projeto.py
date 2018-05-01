@@ -15,9 +15,9 @@ from math import *
 #%% Data initialization
 #Escolher x_values abaixo
 #Valor do roteiro
-x_values = [0.1, 1.0, 10.0]
+#x_values = [0.1, 1.0, 10.0]
 #Valor para teste
-#x_values = linspace(0.1,10.0,1)
+x_values = linspace(0.1,10.0,21)
 table_up = []
 table_down = []
 table_down_normal = []
@@ -84,7 +84,7 @@ def calc_error():
         for j in range(0,size(l_axis)):
             #print '%.20f' %( abs(table_up[i][j]) - abs(table_down_normal[i][j]) )
             if ( ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) == 0 ):
-                j_error = 0.005 #TODO corrigir só pra evitar float division by zero
+                j_error = 0 #TODO corrigir só pra evitar float division by zero
             else:
                 j_error = abs(table_up[i][j]- table_down_normal[i][j]) / ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) 
             row_error.append(j_error)
@@ -112,16 +112,17 @@ def plot_x(table,y_label):
     ylabel(y_label)
     show()    
     
-#%% Teste       
+#%% Main      
 
 compute_j_up()
 compute_j_down()
 normalize()
 calc_error()
-plot_l(table_up,'jl(x) (up)')
-plot_l(table_down_normal,'jl(x) (down)')
+plot_l(table_up,'jl(l) (up)')
+plot_l(table_down_normal,'jl(l) (down)')
 plot_l(table_error,'Erro relativo')
 plot_x(table_down_normal,'jl(x) down')
 plot_x(table_up,'jl(x) up')
-#%% Main 
+
+
    
