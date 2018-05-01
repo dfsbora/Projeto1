@@ -15,16 +15,19 @@ from math import *
 #%% Data initialization
 #Escolher x_values abaixo
 #Valor do roteiro
-#x_values = [0.1, 1.0, 10.0]
-#Valor para plots
-x_values = linspace(0.1,10.0,51)
+x_values = [0.1, 1.0, 10.0]
+#Valor para teste
+#x_values = linspace(0.1,10.0,1)
 table_up = []
 table_down = []
 table_down_normal = []
 table_error = []
 list_j0 = []
-x_axis = range(0, 25)
-
+#Escolher l_axis abaixo
+#Valor do roteiro
+l_axis = range(0, 25) 
+#Valor para teste
+#l_axis = range(0,2)
 #%% Define function to compute j's up
 def compute_j_up():
     for x in x_values:       
@@ -37,7 +40,7 @@ def compute_j_up():
         row_up.append(j_up_ant)                         #adiciona à lista de js
         j_up_atual = sin(x)/(x**2) - cos(x)/x           #j1  
         row_up.append(j_up_atual)                       #adiciona à lista de js
-        for l in range(2, 25):                          #loop de 2 a 24
+        for l in range(2, size(l_axis)):                          #loop de 2 a 24
             j_up_prox = j_up_atual*(2*l + 1)/x - j_up_ant       #cálculo de js
             row_up.append(j_up_prox)                            #adiciona à lista de js
             j_up_ant = j_up_atual                       #atualiza o valor de jl-1
@@ -50,11 +53,11 @@ def compute_j_down():
     for x in x_values:  
         row_down = []
         
-        j_down_prox = 25          #TODO corrigir valor
+        j_down_prox = size(l_axis)
         row_down.append(j_down_prox)
-        j_down_atual = 25         #TODO corrigir valor
+        j_down_atual = size(l_axis)         #TODO corrigir valor
         row_down.append(j_down_atual)
-        for l in range(23, 0, -1):
+        for l in range((size(l_axis)-2), 0, -1):
             j_down_ant = j_down_atual*(2*l + 1)/x - j_down_prox
             row_down.append(j_down_ant)
             j_down_prox = j_down_atual 
@@ -68,7 +71,7 @@ def compute_j_down():
 def normalize():
     for i in range(0,size(x_values)):
         row_normal = []
-        for j in range(0,25):
+        for j in range(0,size(l_axis)):
             jl_normal = table_down[i][j] * list_j0[i] / table_down[i][0] 
             row_normal.append(jl_normal)
         table_down_normal.append(row_normal)
@@ -78,7 +81,7 @@ def normalize():
 def calc_error():
     for i in range(0,size(x_values)):
         row_error = []
-        for j in range(0,25):
+        for j in range(0,size(l_axis)):
             #print '%.20f' %( abs(table_up[i][j]) - abs(table_down_normal[i][j]) )
             if ( ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) == 0 ):
                 j_error = 0.005 #TODO corrigir só pra evitar float division by zero
@@ -92,7 +95,7 @@ def calc_error():
 
 def plot_l(table,y_label):
     for row in table:
-        plot(x_axis,row)
+        plot(l_axis,row)
     xlabel('Valores de l')
     ylabel(y_label)
     show()
@@ -100,7 +103,7 @@ def plot_l(table,y_label):
 #%% Define function to plot f(x)
     
 def plot_x(table,y_label):
-    for i in range(0,25):
+    for i in range(0,size(l_axis)):
         teste = []
         for j in range(0,size(x_values)):
             teste.append(table[j][i])
