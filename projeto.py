@@ -57,7 +57,6 @@ def compute_j_down():
             j_down_atual = j_down_ant
         
         row_down = list(reversed(row_down))         #Inverte ordem dos elementos
-
         table_down.append(row_down)                 #adiciona a lista de js à tabela
         
 #%% Define function to normalize j's
@@ -76,6 +75,7 @@ def calc_error():
     for i in range(0,3):
         row_error = []
         for j in range(0,25):
+            print '%.20f' %( abs(table_up[i][j]) - abs(table_down_normal[i][j]) )
             if ( ( abs(table_up[i][j]) - abs(table_down_normal[i][j]) ) == 0 ):
                 j_error = 0.005 #TODO corrigir só pra evitar float division by zero
             else:
@@ -93,6 +93,19 @@ def plot_(table,y_label):
     ylabel(y_label)
     show()
      
+#%% Define test plot function 
+    #x_values deve ter 10 valores
+    
+def plot_test(table,y_label):
+    for i in range(0,25):
+        teste = []
+        for j in range(0,10):
+            teste.append(table[j][i])
+        plot(x_values,teste)
+    xlabel('Valores de x')
+    ylabel(y_label)
+    show()    
+    
 #%% Teste       
 
 compute_j_up()
@@ -102,5 +115,6 @@ calc_error()
 plot_(table_up,'jl(x) (up)')
 plot_(table_down_normal,'jl(x) (down)')
 plot_(table_error,'Erro relativo')
+#plot_test(table_down_normal,'jl(x) down')
 #%% Main 
    
